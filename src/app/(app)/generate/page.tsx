@@ -10,15 +10,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-
-const dietaryPreferences = ['No Preference', 'Vegan', 'Gluten-Free', 'Keto', 'High Protein'];
+import { Input } from '@/components/ui/input';
 
 const formSchema = z.object({
   ingredients: z.string().min(3, { message: "Please enter at least one ingredient." }),
-  dietaryPreference: z.string(),
+  cuisine: z.string().optional(),
+  mealType: z.string().optional(),
+  dietaryRestrictions: z.string().optional(),
+  cookTime: z.string().optional(),
+  servings: z.string().optional(),
+  difficulty: z.string().optional(),
+  includeNutrition: z.boolean().default(false),
 });
 
 export default function GeneratePage() {
@@ -30,7 +36,13 @@ export default function GeneratePage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       ingredients: "",
-      dietaryPreference: "No Preference",
+      cuisine: "Any",
+      mealType: "Any",
+      dietaryRestrictions: "None",
+      cookTime: "",
+      servings: "",
+      difficulty: "Any",
+      includeNutrition: true,
     },
   });
 
@@ -39,7 +51,13 @@ export default function GeneratePage() {
     try {
       const recipeData = await generateRecipeWithPreference({
         ingredients: values.ingredients,
-        dietaryPreference: values.dietaryPreference === 'No Preference' ? undefined : values.dietaryPreference,
+        cuisine: values.cuisine === 'Any' ? undefined : values.cuisine,
+        mealType: values.mealType === 'Any' ? undefined : values.mealType,
+        dietaryRestrictions: values.dietaryRestrictions === 'None' ? undefined : values.dietaryRestrictions,
+        cookTime: values.cookTime || undefined,
+        servings: values.servings || undefined,
+        difficulty: values.difficulty === 'Any' ? undefined : values.difficulty,
+        includeNutrition: values.includeNutrition,
       });
 
       const newRecipe = {
@@ -65,14 +83,14 @@ export default function GeneratePage() {
 
   return (
     <div className="container mx-auto p-4 md:p-8 flex justify-center">
-      <Card className="w-full max-w-2xl shadow-lg rounded-xl">
+      <Card className="w-full max-w-3xl shadow-lg rounded-xl">
         <CardHeader>
           <CardTitle className="text-3xl font-headline">Generate a New Recipe</CardTitle>
           <CardDescription>Tell us what you have and any preferences.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
                 name="ingredients"
@@ -91,32 +109,141 @@ export default function GeneratePage() {
                   </FormItem>
                 )}
               />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="cuisine"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Cuisine Type</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a cuisine" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {["Any", "Italian", "Mexican", "Chinese", "Indian", "Japanese", "Thai", "French", "Greek", "Spanish"].map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="mealType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Meal Type</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a meal type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                           {["Any", "Breakfast", "Lunch", "Dinner", "Snack", "Dessert"].map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="dietaryRestrictions"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Dietary Restrictions</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a dietary restriction" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {["None", "Vegan", "Gluten-Free", "Keto", "High Protein", "Vegetarian"].map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="cookTime"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Max Cook Time (minutes)</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 30" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="servings"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Number of Servings</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 4" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="difficulty"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Difficulty Level</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a difficulty" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {["Any", "Easy", "Medium", "Hard"].map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
               <FormField
                 control={form.control}
-                name="dietaryPreference"
+                name="includeNutrition"
                 render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel className="text-lg">🥗 Dietary Preference (optional):</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-2"
-                      >
-                        {dietaryPreferences.map((pref) => (
-                          <FormItem key={pref} className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem value={pref} id={pref}/>
-                            </FormControl>
-                            <FormLabel htmlFor={pref} className="font-normal cursor-pointer">{pref}</FormLabel>
-                          </FormItem>
-                        ))}
-                      </RadioGroup>
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
+                     <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>
+                        Include Nutrition Information?
+                      </FormLabel>
+                    </div>
                   </FormItem>
                 )}
               />
+
               <Button type="submit" disabled={isLoading} size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
                 {isLoading ? (
                   <>

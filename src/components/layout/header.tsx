@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChefHat, BookMarked, LogOut, Home } from "lucide-react";
+import { ChefHat, BookMarked, LogOut, Home, Share, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
@@ -17,24 +17,22 @@ export default function Header() {
     <header className="bg-card/80 backdrop-blur-sm sticky top-0 z-50 w-full border-b">
       <div className="container flex h-16 items-center">
         <Link href="/dashboard" className="flex items-center gap-2 font-bold text-lg mr-6">
-          <ChefHat className="h-7 w-7 text-primary" />
-          <span className="font-headline hidden sm:inline-block">RecipePilot</span>
+          <ChefHat className="h-8 w-8 text-primary" />
+          <div className="flex flex-col">
+            <span className="font-headline text-2xl leading-none">RecipeAI</span>
+            <span className="text-xs text-muted-foreground leading-none">Powered by n8n workflows</span>
+          </div>
         </Link>
-        <nav className="flex items-center gap-2 sm:gap-4">
-          <Button variant="ghost" asChild className="text-sm sm:text-base">
-            <Link href="/dashboard">
-              <Home className="h-4 w-4 mr-1 sm:mr-2" />
-              Home
-            </Link>
+        
+        <div className="ml-auto flex items-center gap-2">
+           <Button variant="outline">
+            <Share className="h-4 w-4 mr-2" />
+            Share
           </Button>
-          <Button variant="ghost" asChild className="text-sm sm:text-base">
-            <Link href="/saved">
-              <BookMarked className="h-4 w-4 mr-1 sm:mr-2" />
-              Saved
-            </Link>
+           <Button variant="outline">
+            <Heart className="h-4 w-4 mr-2" />
+            Favorites
           </Button>
-        </nav>
-        <div className="ml-auto">
           <Button variant="ghost" onClick={handleLogout} className="text-sm sm:text-base">
             <LogOut className="h-4 w-4 mr-1 sm:mr-2" />
             Logout

@@ -17,7 +17,7 @@ export default function RecipePage() {
 
   useEffect(() => {
     if (!currentRecipe) {
-      router.replace('/generate');
+      router.replace('/dashboard');
     }
   }, [currentRecipe, router]);
 
@@ -42,7 +42,7 @@ export default function RecipePage() {
 
   const handleDownload = () => {
     if (!currentRecipe) return;
-    const recipeText = `
+    let recipeText = `
 Title: ${currentRecipe.title}
 Cooking Time: ${currentRecipe.cookingTime}
 Servings: ${currentRecipe.servings}
@@ -53,6 +53,17 @@ ${currentRecipe.ingredients.map(ing => `- ${ing}`).join('\n')}
 Steps:
 ${currentRecipe.steps.map((step, i) => `${i + 1}. ${step}`).join('\n')}
     `;
+
+    if (currentRecipe.nutrition) {
+      recipeText += `
+Nutrition Information:
+- Calories: ${currentRecipe.nutrition.calories}
+- Protein: ${currentRecipe.nutrition.protein}
+- Carbs: ${currentRecipe.nutrition.carbs}
+- Fat: ${currentRecipe.nutrition.fat}
+      `;
+    }
+
     const blob = new Blob([recipeText.trim()], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -74,6 +85,7 @@ ${currentRecipe.steps.map((step, i) => `${i + 1}. ${step}`).join('\n')}
           <CardDescription className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-4 text-base">
             <span>🕒 Cook Time: {currentRecipe.cookingTime}</span>
             <span>👥 Servings: {currentRecipe.servings}</span>
+            {currentRecipe.difficulty && <span>🌶️ Difficulty: {currentRecipe.difficulty}</span>}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6 px-4 md:px-6">
@@ -90,6 +102,20 @@ ${currentRecipe.steps.map((step, i) => `${i + 1}. ${step}`).join('\n')}
               {currentRecipe.steps.map((step, i) => <li key={i}>{step}</li>)}
             </ol>
           </div>
+          {currentRecipe.nutrition && (
+            <>
+              <Separator />
+              <div>
+                <h3 className="text-xl font-bold mb-2 font-headline">🍎 Nutrition Information</h3>
+                 <div className="grid grid-cols-2 gap-2 text-base">
+                    <p><strong>Calories:</strong> {currentRecipe.nutrition.calories}</p>
+                    <p><strong>Protein:</strong> {currentRecipe.nutrition.protein}</p>
+                    <p><strong>Carbs:</strong> {currentRecipe.nutrition.carbs}</p>
+                    <p><strong>Fat:</strong> {currentRecipe.nutrition.fat}</p>
+                </div>
+              </div>
+            </>
+          )}
         </CardContent>
         <CardFooter className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
             <Button variant="outline" asChild>

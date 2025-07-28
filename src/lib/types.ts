@@ -5,8 +5,21 @@ export type Recipe = {
   steps: string[];
   cookingTime: string;
   servings: string;
+  difficulty?: string;
+  nutrition?: {
+    calories: string;
+    protein: string;
+    carbs: string;
+    fat: string;
+  };
   userInput: {
     ingredients: string;
-    dietaryPreference?: string;
+    cuisine?: string;
+    mealType?: string;
+    dietaryRestrictions?: string;
+    cookTime?: string;
+    servings?: string;
+    difficulty?: string;
+    includeNutrition?: boolean;
   };
 };
