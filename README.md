@@ -6,7 +6,7 @@ A modern web application that generates personalized recipes using AI based on y
 
 ## 🔗 Live Demo
 
-🌐 [View the App on Vercel](https://nexium-asad-assign2.vercel.app/)
+🌐 [View the App on Vercel](https://recipe-pilot-ht6napn4v-asad-usman89s-projects.vercel.app/)
 
 ---
 
@@ -207,4 +207,11 @@ The application is optimized for Vercel's platform with:
 
 ---
 
-Built with ❤️ using Next.js, Supabase, and AI
+## 👨‍💻 Author
+
+**Asad Ur Rehman**  
+BS Computer Science, FAST NUCES Karachi 
+🌐 Connect: [www.linkedin.com/in/asad-ur-rehman-5b8112267](https://www.linkedin.com/in/asad-ur-rehman-5b8112267/)  
+💬 Passionate about clean UI, purposeful tech, and continuous learning  
+
+> _“It’s not about how fast you move, but how consistently you do — even small steps each day build unstoppable progress.”_
