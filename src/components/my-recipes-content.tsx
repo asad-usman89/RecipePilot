@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { useRecipe } from '@/context/recipe-context';
 import { useRouter } from 'next/navigation';
-import { Eye, Heart, Trash2, Clock, Users, Bookmark } from 'lucide-react';
+import { Eye, Heart, Trash2, Clock, Users, Bookmark, History } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   AlertDialog,
@@ -22,7 +22,15 @@ import {
 import type { Recipe } from '@/lib/types';
 
 export default function MyRecipesPage() {
-  const { savedRecipes, favoriteRecipes, deleteRecipe, removeFavorite, setCurrentRecipe } = useRecipe();
+  const { 
+    savedRecipes, 
+    favoriteRecipes, 
+    searchHistory, 
+    deleteRecipe, 
+    removeFavorite, 
+    clearHistory, 
+    setCurrentRecipe 
+  } = useRecipe();
   const router = useRouter();
 
   const viewRecipe = (recipe: Recipe) => {
@@ -50,14 +58,18 @@ export default function MyRecipesPage() {
       </div>
 
       <Tabs defaultValue="saved" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="saved" className="flex items-center gap-2">
             <Bookmark className="h-4 w-4" />
-            Saved Recipes
+            Saved ({savedRecipes.length})
           </TabsTrigger>
           <TabsTrigger value="favorites" className="flex items-center gap-2">
             <Heart className="h-4 w-4" />
-            Favorites
+            Favorites ({favoriteRecipes.length})
+          </TabsTrigger>
+          <TabsTrigger value="history" className="flex items-center gap-2">
+            <History className="h-4 w-4" />
+            History ({searchHistory.length})
           </TabsTrigger>
         </TabsList>
 
@@ -199,6 +211,90 @@ export default function MyRecipesPage() {
                   </Card>
                 ))}
               </div>
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="history" className="mt-6">
+          <div className="flex justify-between items-center mb-4">
+            <p className="text-sm text-muted-foreground">
+              Your recent recipe searches (showing last {searchHistory.length} searches)
+            </p>
+            {searchHistory.length > 0 && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    Clear History
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Clear Search History?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This will permanently delete all your recipe search history. This action cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction 
+                      onClick={clearHistory}
+                      className="bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+                    >
+                      Clear History
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+          </div>
+
+          {searchHistory.length === 0 ? (
+            <div className="text-center py-16">
+              <History className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
+              <h3 className="text-2xl font-semibold mb-2">No search history found.</h3>
+              <p className="text-muted-foreground mb-6">
+                Generate some recipes to see your search history here!
+              </p>
+            </div>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {searchHistory.map((recipe) => (
+                <Card key={recipe.id} className="hover:shadow-md transition-shadow">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-1 flex-1">
+                        <CardTitle className="text-lg leading-tight">{recipe.title}</CardTitle>
+                        <CardDescription className="text-sm">
+                          Generated on {new Date(recipe.id).toLocaleDateString()}
+                        </CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-4 w-4" />
+                        <span>{recipe.cookingTime}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Users className="h-4 w-4" />
+                        <span>{recipe.servings}</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={() => viewRecipe(recipe)}
+                        className="flex-1"
+                      >
+                        <Eye className="mr-2 h-4 w-4" />
+                        View Recipe
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           )}
         </TabsContent>

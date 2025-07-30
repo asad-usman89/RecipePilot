@@ -29,7 +29,7 @@ const formSchema = z.object({
 
 export default function GeneratePage() {
   const router = useRouter();
-  const { setCurrentRecipe, setIsLoading, isLoading } = useRecipe();
+  const { setCurrentRecipe, addToHistory, setIsLoading, isLoading } = useRecipe();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -67,6 +67,7 @@ export default function GeneratePage() {
       };
 
       setCurrentRecipe(newRecipe);
+      addToHistory(newRecipe); // Add to search history
       router.push('/recipe');
 
     } catch (error) {
