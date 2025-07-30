@@ -7,12 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
-import { RotateCcw, Save, Download, ChefHat } from 'lucide-react';
+import { RotateCcw, Save, Download, ChefHat, Heart } from 'lucide-react';
 import Link from 'next/link';
 
 export default function RecipePage() {
   const router = useRouter();
-  const { currentRecipe, saveRecipe, savedRecipes } = useRecipe();
+  const { currentRecipe, saveRecipe, savedRecipes, favoriteRecipe, favoriteRecipes, isRecipeSaved, isRecipeFavorited } = useRecipe();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -36,6 +36,16 @@ export default function RecipePage() {
         toast({
           title: "Recipe Saved!",
           description: `"${currentRecipe.title}" has been added to your saved recipes.`,
+        });
+    }
+  };
+
+  const handleFavorite = () => {
+    if (currentRecipe) {
+        favoriteRecipe(currentRecipe);
+        toast({
+          title: "Recipe Favorited!",
+          description: `"${currentRecipe.title}" has been added to your favorites.`,
         });
     }
   };
@@ -75,7 +85,8 @@ Nutrition Information:
     URL.revokeObjectURL(url);
   };
 
-  const isSaved = currentRecipe ? savedRecipes.some(r => r.id === currentRecipe.id) : false;
+  const isSaved = currentRecipe ? isRecipeSaved(currentRecipe.id) : false;
+  const isFavorited = currentRecipe ? isRecipeFavorited(currentRecipe.id) : false;
 
   return (
     <div className="container mx-auto p-4 md:p-8 flex justify-center">
@@ -127,6 +138,14 @@ Nutrition Information:
             <Button onClick={handleSave} disabled={isSaved} className="bg-primary hover:bg-primary/90 text-primary-foreground">
                 <Save className="mr-2 h-4 w-4" />
                 {isSaved ? 'Saved' : 'Save Recipe'}
+            </Button>
+            <Button 
+                onClick={handleFavorite} 
+                disabled={isFavorited} 
+                className={isFavorited ? "bg-red-500 hover:bg-red-600 text-white" : "bg-red-500 hover:bg-red-600 text-white"}
+            >
+                <Heart className={`mr-2 h-4 w-4 ${isFavorited ? 'fill-current' : ''}`} />
+                {isFavorited ? 'Favorited' : 'Add to Favorites'}
             </Button>
             <Button onClick={handleDownload} className="bg-accent hover:bg-accent/90 text-accent-foreground">
                 <Download className="mr-2 h-4 w-4" />
