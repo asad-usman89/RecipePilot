@@ -2,6 +2,14 @@
 
 A modern web application that generates personalized recipes using AI based on your available ingredients and dietary preferences.
 
+---
+
+## 🔗 Live Demo
+
+🌐 [View the App on Vercel](https://nexium-asad-assign2.vercel.app/)
+
+---
+
 ## 🌟 Features
 
 - **Magic Link Authentication** - Secure email-based login via Supabase
@@ -11,6 +19,8 @@ A modern web application that generates personalized recipes using AI based on y
 - **Responsive Design** - Beautiful UI that works on all devices
 - **Recipe History** - Track and revisit your generated recipes
 
+---
+
 ## 🛠️ Tech Stack
 
 - **Frontend**: Next.js 13, TypeScript, Tailwind CSS, ShadCN UI
@@ -19,6 +29,8 @@ A modern web application that generates personalized recipes using AI based on y
 - **Database**: MongoDB for recipe storage
 - **AI**: OpenAI GPT for recipe generation
 - **Deployment**: Vercel
+
+---
 
 ## 🚀 Getting Started
 
@@ -68,6 +80,8 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to see the application.
 
+---
+
 ## 🏗️ Project Structure
 
 ```
@@ -85,6 +99,8 @@ Open [http://localhost:3000](http://localhost:3000) to see the application.
 ├── lib/               # Utilities and configurations
 └── public/            # Static assets
 ```
+
+---
 
 ## 🔧 Configuration
 
@@ -132,6 +148,8 @@ Create an n8n workflow that:
 }
 ```
 
+---
+
 ## 🎨 Design System
 
 The application uses a modern, food-themed design with:
@@ -142,6 +160,8 @@ The application uses a modern, food-themed design with:
 - **Responsive**: Mobile-first approach
 - **Animations**: Subtle transitions and micro-interactions
 
+---
+
 ## 📱 User Flow
 
 1. **Landing** - User enters email for magic link
@@ -151,6 +171,8 @@ The application uses a modern, food-themed design with:
 5. **Recipe** - View generated recipe with actions
 6. **Saved** - Manage saved recipes collection
 
+---
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -159,9 +181,7 @@ The application uses a modern, food-themed design with:
 4. Test thoroughly
 5. Submit a pull request
 
-## 📄 License
-
-This project is licensed under the MIT License.
+---
 
 ## 🆘 Support
 
@@ -169,6 +189,8 @@ For support and questions:
 - Create an issue in the repository
 - Check the documentation
 - Review the project wiki
+
+---
 
 ## 🚀 Deployment
 
