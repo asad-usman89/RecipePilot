@@ -6,15 +6,23 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useUser } from "@/context/user-context";
+import { useState } from "react";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { setUser } = useUser();
+  const [email, setEmail] = useState("");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, this would trigger the Supabase magic link flow.
-    // For this demo, we'll just redirect to the dashboard.
-    router.push("/dashboard");
+    if (email.trim()) {
+      // Save user email to context
+      setUser({ email: email.trim() });
+      // In a real app, this would trigger the Supabase magic link flow.
+      // For this demo, we'll just redirect to the dashboard.
+      router.push("/dashboard");
+    }
   };
 
   return (
@@ -31,7 +39,15 @@ export default function LoginPage() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-md">Email Address</Label>
-              <Input id="email" type="email" placeholder="you@example.com" required className="py-6 text-base"/>
+              <Input 
+                id="email" 
+                type="email" 
+                placeholder="you@example.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required 
+                className="py-6 text-base"
+              />
             </div>
           </CardContent>
           <CardFooter>
