@@ -31,9 +31,9 @@ export default function SavedRecipesPage() {
     <div className="container mx-auto p-4 md:p-8">
        <Card className="w-full max-w-4xl mx-auto shadow-lg rounded-xl">
         <CardHeader>
-          <CardTitle className="text-3xl font-headline">📚 Saved Recipes</CardTitle>
+          <CardTitle className="text-3xl font-headline">📚 My Recipes</CardTitle>
           <CardDescription>
-             {savedRecipes.length > 0 ? "All your delicious saved recipes in one place." : "You haven't saved any recipes yet."}
+             {savedRecipes.length > 0 ? "All your delicious saved and favorited recipes in one place." : "You haven't saved any recipes yet."}
           </CardDescription>
         </CardHeader>
         <CardContent>
