@@ -37,7 +37,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     // Listen for auth state changes only if Supabase is configured
     if (isSupabaseConfigured() && supabase) {
       const { data: { subscription } } = supabase.auth.onAuthStateChange(
-        async (event, session) => {
+        async (event) => {
           // Only handle sign out events here to avoid conflicts with auth callback
           if (event === 'SIGNED_OUT') {
             setUser(null);

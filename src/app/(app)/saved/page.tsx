@@ -65,7 +65,7 @@ const RecipeList = ({
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete "{recipe.title}".
+                        This action cannot be undone. This will permanently delete &ldquo;{recipe.title}&rdquo;.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

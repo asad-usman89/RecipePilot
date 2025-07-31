@@ -60,7 +60,7 @@ export default function LoginPage() {
         // For demo purposes, also save the email to context
         setUser({ email: email.trim() });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",

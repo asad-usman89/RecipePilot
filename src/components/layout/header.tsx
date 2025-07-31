@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { ChefHat, BookMarked, LogOut, Home, Heart, User, FileText } from "lucide-react";
+import { ChefHat, LogOut, Home, User, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/user-context";
 

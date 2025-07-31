@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 export default function RecipePage() {
   const router = useRouter();
-  const { currentRecipe, saveRecipe, savedRecipes, favoriteRecipe, favoriteRecipes, isRecipeSaved, isRecipeFavorited } = useRecipe();
+  const { currentRecipe, saveRecipe, favoriteRecipe, isRecipeSaved, isRecipeFavorited } = useRecipe();
   const { toast } = useToast();
 
   useEffect(() => {

@@ -1,21 +1,17 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { useRecipe } from '@/context/recipe-context';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Eye, Search, UtensilsCrossed, Bookmark } from 'lucide-react';
-import type { Recipe } from '@/lib/types';
+import { useRecipe } from '@/context/recipe-context';
+import { UtensilsCrossed, Search, Bookmark } from 'lucide-react';
 import GeneratePage from '../generate/page';
 import BrowsePage from '../browse/page';
 import MyRecipesContent from '@/components/my-recipes-content';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import LoadingSpinner from '@/components/ui/loading-spinner';
 
-export default function Dashboard() {
-  const { savedRecipes, setCurrentRecipe } = useRecipe();
+function DashboardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState("generate");
@@ -27,11 +23,6 @@ export default function Dashboard() {
       setActiveTab(tab);
     }
   }, [searchParams]);
-
-  const viewRecipe = (recipe: Recipe) => {
-    setCurrentRecipe(recipe);
-    router.push('/recipe');
-  };
 
   return (
     <div className="container mx-auto p-4 md:p-8">
@@ -51,12 +42,20 @@ export default function Dashboard() {
           <GeneratePage />
         </TabsContent>
         <TabsContent value="browse">
-            <BrowsePage />
+          <BrowsePage />
         </TabsContent>
         <TabsContent value="saved">
           <MyRecipesContent />
         </TabsContent>
       </Tabs>
     </div>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <DashboardContent />
+    </Suspense>
   );
 }
