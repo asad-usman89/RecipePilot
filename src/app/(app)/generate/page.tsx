@@ -83,21 +83,14 @@ export default function GeneratePage() {
   }
 
   return (
-    <div className="container mx-auto p-4 md:p-8 flex justify-center">
-      <Card className="w-full max-w-3xl shadow-lg rounded-xl">
-        <CardHeader>
-          <CardTitle className="text-3xl font-headline">Generate a New Recipe</CardTitle>
-          <CardDescription>Tell us what you have and any preferences.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="ingredients"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-lg">🧄 Ingredients You Have:</FormLabel>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="ingredients"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-lg">🧄 Ingredients You Have:</FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="e.g., tomatoes, onions, chicken, garlic"
@@ -257,8 +250,5 @@ export default function GeneratePage() {
               </Button>
             </form>
           </Form>
-        </CardContent>
-      </Card>
-    </div>
   );
 }
