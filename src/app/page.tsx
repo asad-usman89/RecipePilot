@@ -10,6 +10,7 @@ import { useUser } from "@/context/user-context";
 import { useState } from "react";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
+import { getAuthRedirectUrl } from "@/lib/auth-helpers";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -38,11 +39,14 @@ export default function LoginPage() {
     }
     
     try {
+      const redirectUrl = getAuthRedirectUrl();
+      console.log('Auth redirect URL:', redirectUrl); // Debug log
+      
       const { error } = await supabase!.auth.signInWithOtp({
         email: email.trim(),
         options: {
           // This is the URL that Supabase will redirect to after email verification
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          emailRedirectTo: redirectUrl,
         },
       });
 

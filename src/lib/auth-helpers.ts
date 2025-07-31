@@ -9,7 +9,7 @@ export function getAuthRedirectUrl(): string {
   const baseUrl = process.env.VERCEL_URL 
     ? `https://${process.env.VERCEL_URL}` 
     : process.env.NODE_ENV === 'production'
-    ? 'https://your-app-name.vercel.app' // Replace with your actual domain
+    ? 'https://recipe-pilot-five.vercel.app' // Replace with your actual domain
     : 'http://localhost:9002';
     
   return `${baseUrl}/auth/callback`;
@@ -24,6 +24,6 @@ export function getSiteUrl(): string {
   return process.env.VERCEL_URL 
     ? `https://${process.env.VERCEL_URL}` 
     : process.env.NODE_ENV === 'production'
-    ? 'https://your-app-name.vercel.app' // Replace with your actual domain
+    ? 'https://recipe-pilot-five.vercel.app' // Replace with your actual domain
     : 'http://localhost:9002';
 }
