@@ -29,10 +29,10 @@ function DashboardContent() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="generate">
-            <UtensilsCrossed className="mr-2 h-4 w-4" /> Generate Recipe
+            <UtensilsCrossed className="mr-2 h-4 w-4" /> Generate Recipes with Ingredients
           </TabsTrigger>
           <TabsTrigger value="browse">
-            <Search className="mr-2 h-4 w-4" /> Browse Recipes
+            <Search className="mr-2 h-4 w-4" /> Generate Recipes with Dish Name
           </TabsTrigger>
           <TabsTrigger value="saved">
             <Bookmark className="mr-2 h-4 w-4" /> My Recipes

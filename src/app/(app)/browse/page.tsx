@@ -18,6 +18,7 @@ export default function BrowsePage() {
   const { toast } = useToast();
   const [dishName, setDishName] = useState("");
   const [dietaryPreference, setDietaryPreference] = useState("");
+  const [servings, setServings] = useState("4");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,10 +32,22 @@ export default function BrowsePage() {
       return;
     }
 
+    // Validate servings
+    const servingNumber = parseInt(servings);
+    if (!servings || isNaN(servingNumber) || servingNumber < 1 || servingNumber > 20) {
+      toast({
+        variant: "destructive",
+        title: "Invalid serving size",
+        description: "Please enter a number between 1 and 20 for servings.",
+      });
+      return;
+    }
+
     setIsLoading(true);
     try {
       const recipeData = await generateRecipeByDishName({
         dishName: dishName.trim(),
+        servings: servings,
         dietaryPreference: dietaryPreference && dietaryPreference !== "none" ? dietaryPreference : undefined,
       });
 
@@ -47,7 +60,7 @@ export default function BrowsePage() {
           mealType: undefined,
           dietaryRestrictions: dietaryPreference && dietaryPreference !== "none" ? dietaryPreference : undefined,
           cookTime: undefined,
-          servings: undefined,
+          servings: servings,
           difficulty: undefined,
           includeNutrition: false,
         },
@@ -58,7 +71,7 @@ export default function BrowsePage() {
       
       toast({
         title: "Recipe Generated!",
-        description: `Your ${dishName} recipe is ready!`,
+        description: `Your ${dishName} recipe for ${servings} serving${servings === "1" ? "" : "s"} is ready!`,
       });
       
       router.push('/recipe');
@@ -126,6 +139,26 @@ export default function BrowsePage() {
                   <SelectItem value="halal">Halal</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="servings" className="text-lg font-medium">
+                👥 Number of Servings
+              </Label>
+              <Input
+                id="servings"
+                type="number"
+                placeholder="e.g., 4"
+                value={servings}
+                onChange={(e) => setServings(e.target.value)}
+                className="text-lg p-6"
+                disabled={isLoading}
+                min="1"
+                max="20"
+              />
+              <p className="text-sm text-muted-foreground">
+                The recipe ingredients and instructions will be adjusted for this many servings.
+              </p>
             </div>
 
             <Button 

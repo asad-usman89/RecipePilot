@@ -16,6 +16,10 @@ const GenerateRecipeByDishNameInputSchema = z.object({
   dishName: z
     .string()
     .describe('The name of the dish the user wants to cook (e.g., "Chicken Biryani", "Pasta Carbonara", "Chicken Karahi").'),
+  servings: z
+    .string()
+    .optional()
+    .describe('The number of servings the recipe should yield (e.g., "2", "4", "6").'),
   dietaryPreference: z
     .string()
     .optional()
@@ -54,6 +58,12 @@ const prompt = ai.definePrompt({
 
   Create a detailed and authentic recipe for: {{{dishName}}}.
 
+  {{#if servings}}
+  The recipe should be scaled to serve exactly {{{servings}}} people. Adjust all ingredient quantities accordingly.
+  {{else}}
+  The recipe should serve 4 people (standard serving size).
+  {{/if}}
+
   {{#if dietaryPreference}}
   The recipe should adhere to the following dietary preference: {{{dietaryPreference}}}.
   {{/if}}
@@ -61,11 +71,12 @@ const prompt = ai.definePrompt({
   Requirements:
   - If the dish is Pakistani/Indian, include authentic spices and cooking methods
   - If the dish is from another cuisine, maintain authenticity to that cuisine
-  - Provide accurate ingredient measurements
+  - Provide accurate ingredient measurements scaled for the specified number of servings
   - Include detailed step-by-step cooking instructions
   - Specify cooking time and number of servings
   - Use common ingredients that are easily available
   - Ensure the recipe is authentic and traditional
+  - All ingredient quantities must be properly scaled for the requested serving size
 
   The recipe should include a title, a complete list of ingredients with measurements, detailed step-by-step instructions, the total cooking time, and the number of servings.
   Return the recipe in a JSON format.
