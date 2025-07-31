@@ -17,7 +17,7 @@ export default function BrowsePage() {
   const { toast } = useToast();
   const [dishName, setDishName] = useState("");
   const [dietaryPreference, setDietaryPreference] = useState("");
-  const [servings, setServings] = useState("4");
+  const [servings, setServings] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,9 +31,9 @@ export default function BrowsePage() {
       return;
     }
 
-    // Validate servings
-    const servingNumber = parseInt(servings);
-    if (!servings || isNaN(servingNumber) || servingNumber < 1 || servingNumber > 20) {
+    // Validate servings - use default of 4 if empty
+    const servingNumber = servings ? parseInt(servings) : 4;
+    if (servings && (isNaN(servingNumber) || servingNumber < 1 || servingNumber > 20)) {
       toast({
         variant: "destructive",
         title: "Invalid serving size",
@@ -46,7 +46,7 @@ export default function BrowsePage() {
     try {
       const recipeData = await generateRecipeByDishName({
         dishName: dishName.trim(),
-        servings: servings,
+        servings: servingNumber.toString(),
         dietaryPreference: dietaryPreference && dietaryPreference !== "none" ? dietaryPreference : undefined,
       });
 
@@ -59,7 +59,7 @@ export default function BrowsePage() {
           mealType: undefined,
           dietaryRestrictions: dietaryPreference && dietaryPreference !== "none" ? dietaryPreference : undefined,
           cookTime: undefined,
-          servings: servings,
+          servings: servingNumber.toString(),
           difficulty: undefined,
           includeNutrition: false,
         },
@@ -70,7 +70,7 @@ export default function BrowsePage() {
       
       toast({
         title: "Recipe Generated!",
-        description: `Your ${dishName} recipe for ${servings} serving${servings === "1" ? "" : "s"} is ready!`,
+        description: `Your ${dishName} recipe for ${servingNumber} serving${servingNumber === 1 ? "" : "s"} is ready!`,
       });
       
       router.push('/recipe');
@@ -145,7 +145,7 @@ export default function BrowsePage() {
             max="20"
           />
           <p className="text-sm text-muted-foreground">
-            The recipe ingredients and instructions will be adjusted for this many servings.
+            The recipe ingredients and instructions will be adjusted for this many servings. (Default: 4 servings if left empty)
           </p>
         </div>
 
