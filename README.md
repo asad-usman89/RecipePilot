@@ -6,7 +6,7 @@ A modern web application that generates personalized recipes using AI based on y
 
 ## 🔗 Live Demo
 
-🌐 [View the App on Vercel](https://recipe-pilot-ht6napn4v-asad-usman89s-projects.vercel.app/)
+🌐 [View the App on Vercel](https://recipe-pilot-five.vercel.app/)
 
 ---
 
@@ -204,6 +204,28 @@ The application is optimized for Vercel's platform with:
 - Static site generation where possible
 - API routes for backend functionality
 - Automatic deployments from Git
+
+---
+
+### 🔒 Current Limitations
+- **Limited Cuisine Coverage**: Currently focuses on a few popular cuisines (e.g., Pakistani/Indian, Asian, Italian, American).
+- **No User Recipe Uploads**: Users can't contribute or customize recipes beyond AI suggestions.
+- **Lack of Advanced Filters**: No filtering based on cooking time, skill level, or equipment.
+- **Basic Authentication Flow**: Magic link login via Supabase is functional but lacks OAuth support (e.g., Google, GitHub).
+- **No User Analytics**: Usage patterns, favorite trends, and engagement metrics are not yet tracked.
+- **Limited Offline Support**: App requires constant internet connection due to real-time AI and YouTube API dependencies.
+
+---
+
+### 🌱 Planned Enhancements
+- **Multi-Language Support**: Translate recipes and UI to support global audiences.
+- **Video Playback Integration**: Embed YouTube videos directly instead of redirecting to new tabs.
+- **Smart Meal Planner**: Weekly planning based on user goals (calories, diet type, ingredients at hand).
+- **Recipe Sharing & Publishing**: Allow users to create, edit, and share their own recipes.
+- **OAuth Login**: Add support for Google, Apple, and GitHub logins for faster access.
+- **AI-Powered Grocery Lists**: Automatically generate shopping lists from selected recipes.
+- **Gamification & Streaks**: Encourage regular usage with achievements and cooking streaks.
+- **Admin Dashboard**: For content moderation, video curation, and analytics monitoring.
 
 ---
 
